@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Random Quote Machine</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/jquery.js"></script>
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script>
+
+        $(document).ready(function() {
+            var quoteText;
+            var author;
+            function loadQuote() {
+                    $.ajax({
+                        url: "https://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=jsonp&jsonp=?",
+                        dataType: 'jsonp',
+
+                        success: function (data) {
+                            console.log(data)
+                            quoteText = data.quoteText;
+                            author = data.quoteAuthor;
+                            $('.quote').html(quoteText);
+                            if (author){
+                                $('.author').html(author);
+                            } else {
+                                $('.author').html('- unknown');
+                            }
+
+                        }
+                    });
+                }
+            loadQuote()
+            $('#getQuote').click(function () {
+                loadQuote()
+             });
+            $('.tweet').on('click', function () {
+                window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(quoteText + ' - ' + author))
+            })
+         });
+    </script>
+
+
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="text-center">
+            <h2>Random Quote Machine</h2>
+        </div>
+        <div class="row text-center">
+            <div class="col-12 card card-block">
+                <p class="quote"></p>
+                <p class="author"><b> </b></p>
+            </div>
+
+        </div>
+        <div class="row text-center">
+            <div class="col-md-12 card-block">
+                <button id="getQuote" class="btn btn-success">Get Quote</button>
+                <button id="tweet" class="btn btn-primary tweet">tweet</button>
+            </div>
+        </div>
+        <footer class="text-center">
+      <hr width="30%">
+      <p>Chidozie | <a href="https://facebook.com/dozie9" target="_blank"><i class="fa fa-facebook-square"></i></a> | <a href="https://www.linkedin.com/in/chidozie-ogwuniru-1b0366113" target="_blank"><i class="fa fa-linkedin-square"></i></a> | <a href="https://github.com/dozie9" target="_blank"><i class="fa fa-github-square"></i></a> | <a href="https://twitter.com/dozie9" target="_blank"><i class="fa fa-twitter-square"></i></a> </p>
+    </footer>
+    </div>
+
+
+</body>
+</html>
